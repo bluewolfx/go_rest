@@ -1,6 +1,7 @@
 package main
 
 import (
+    "database/sql"
     "github.com/rs/zerolog"
     "github.com/rs/zerolog/log"
     "net/http"
@@ -17,9 +18,16 @@ type Server struct {
 func main() {
     zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 
-    log.Info().Msg("Testing first function")
+    log.Info().Msg("Preparing dependencies...")
+    newServer()
+    
+}
 
-	r := chi.NewRouter()
+func newServer(){
+
+    log.Info().Msg("Server Starting...")
+
+    r := chi.NewRouter()
     r.Use(middleware.Logger)
     r.Get("/", func(w http.ResponseWriter, r *http.Request) {
     	w.Write([]byte("welcome"))
@@ -27,5 +35,3 @@ func main() {
     http.ListenAndServe(":3000", r)
 
 }
-
-func
